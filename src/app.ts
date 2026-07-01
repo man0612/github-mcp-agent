@@ -1,18 +1,28 @@
 import express from "express";
 import dotenv from "dotenv";
+import { github } from "./config/github";
 
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+app.get("/", async (_, res) => {
+  try {
+    const user = await github.users.getAuthenticated();
 
-const PORT = process.env.PORT || 3000;
-
-app.get("/", (req, res) => {
-    res.send("GitHub MCP Agent Running...");
+    res.json({
+      message: "GitHub Connected!",
+      username: user.data.login,
+      name: user.data.name,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "GitHub Authentication Failed",
+    });
+  }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Server running...");
 });
