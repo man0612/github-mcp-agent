@@ -27,4 +27,35 @@ export class GithubService {
         return response.data;
     }
 
+    async getPullRequest(
+        owner: string,
+        repo: string,
+        pull_number: number
+    ) {
+        const response = await github.pulls.get({
+            owner,
+            repo,
+            pull_number,
+        });
+    
+        return response.data;
+    }
+
+    async getPullRequestFiles(
+        owner: string,
+        repo: string,
+        pull_number: number
+    ) {
+    
+        const response =
+            await github.pulls.listFiles({
+                owner,
+                repo,
+                pull_number,
+            });
+    
+        return response.data;
+    
+    }
+
 }

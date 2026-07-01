@@ -61,7 +61,8 @@ export const getPullRequests = async (
     res: Response
 ) => {
     try {
-        const { owner, repo } = req.params;
+        const owner = req.params.owner as string;
+        const repo = req.params.repo as string;
 
         const pulls = await githubService.getPullRequests(owner, repo);
 
@@ -83,4 +84,82 @@ export const getPullRequests = async (
         });
 
     }
+};
+
+export const getPullRequest = async (
+    req: Request,
+    res: Response
+) => {
+
+    try {
+
+        const owner = req.params.owner as string;
+        const repo = req.params.repo as string;
+        const number= req.params.repo as string;
+
+        const pr =
+            await githubService.getPullRequest(
+                owner,
+                repo,
+                Number(number)
+            );
+
+        res.json({
+            title: pr.title,
+            author: pr.user?.login,
+            body: pr.body,
+            state: pr.state,
+            additions: pr.additions,
+            deletions: pr.deletions,
+            changedFiles: pr.changed_files,
+            commits: pr.commits,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Unable to fetch pull request",
+        });
+
+    }
+
+};
+
+export const getPullRequestFiles = async (
+    req: Request,
+    res: Response
+) => {
+
+    try {
+
+        const owner = req.params.owner as string;
+        const repo = req.params.repo as string;
+        const number= req.params.repo as string;
+
+        const files =
+            await githubService.getPullRequestFiles(
+                owner,
+                repo,
+                Number(number)
+            );
+
+        res.json(
+            files.map(file => ({
+                filename: file.filename,
+                status: file.status,
+                additions: file.additions,
+                deletions: file.deletions,
+                changes: file.changes,
+                patch: file.patch,
+            }))
+        );
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Unable to fetch changed files",
+        });
+
+    }
+
 };
