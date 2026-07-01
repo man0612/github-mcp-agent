@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
     getAuthenticatedUser,
-    getRepository
+    getRepository,
+    getPullRequests,
 } from "../controllers/github.controller";
 
 const router = Router();
@@ -14,6 +15,11 @@ router.get(
 router.get(
     "/repo/:owner/:repo",
     getRepository
+);
+
+router.get(
+    "/pulls/:owner/:repo",
+    getPullRequests
 );
 
 export default router;

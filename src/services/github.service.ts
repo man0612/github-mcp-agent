@@ -17,4 +17,14 @@ export class GithubService {
         return response.data;
     }
 
+    async getPullRequests(owner: string, repo: string) {
+        const response = await github.pulls.list({
+            owner,
+            repo,
+            state: "open",
+        });
+    
+        return response.data;
+    }
+
 }
