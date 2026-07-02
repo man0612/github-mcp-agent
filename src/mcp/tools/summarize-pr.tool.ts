@@ -17,7 +17,7 @@ export async function summarizePRTool(args: {
     content: [
       {
         type: "text" as const,
-        text: summary,
+        text: JSON.stringify(summary, null, 2),
       },
     ],
   };

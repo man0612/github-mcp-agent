@@ -1,30 +1,27 @@
 export const summaryPrompt = (diff: string) => `
 You are a Senior Software Engineer.
 
-Your task is to summarize the following Git Pull Request.
+Analyze the following GitHub Pull Request.
 
-Analyze ALL the code changes and provide:
+Return ONLY valid JSON.
 
-## Purpose
-Explain why this Pull Request exists.
+Schema:
 
-## Major Changes
-List the most important code changes.
+{
+  "purpose": "",
+  "risk": "Low | Medium | High",
+  "majorChanges": [],
+  "filesImpacted": [],
+  "breakingChanges": [],
+  "summary": ""
+}
 
-## Files Impacted
-Mention the important files.
-
-## Breaking Changes
-Mention if anything could break existing functionality.
-
-## Risk Level
-Choose one:
-- Low
-- Medium
-- High
-
-## Overall Summary
-Write a short paragraph summarizing the Pull Request.
+Rules:
+- Output ONLY JSON.
+- No markdown.
+- No explanations.
+- No code fences.
+- Ensure the JSON is valid.
 
 Git Diff:
 

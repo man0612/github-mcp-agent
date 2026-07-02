@@ -1,5 +1,7 @@
 import { github } from "../config/github";
 
+console.log("GitHub client:", github);
+
 export class GithubService {
 
     async getAuthenticatedUser() {
@@ -53,6 +55,26 @@ export class GithubService {
                 repo,
                 pull_number,
             });
+    
+        return response.data;
+    
+    }
+
+    async createReviewComment(
+        owner: string,
+        repo: string,
+        pullNumber: number,
+        body: string
+    ) {
+        console.log("GitHub object:", github);
+
+        const response = await github.pulls.createReview({
+            owner,
+            repo,
+            pull_number: pullNumber,
+            event: "COMMENT",
+            body,
+        });
     
         return response.data;
     
