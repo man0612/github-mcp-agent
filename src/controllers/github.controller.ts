@@ -95,7 +95,7 @@ export const getPullRequest = async (
 
         const owner = req.params.owner as string;
         const repo = req.params.repo as string;
-        const number= req.params.repo as string;
+        const number= req.params.number as string;
 
         const pr =
             await githubService.getPullRequest(
@@ -134,7 +134,7 @@ export const getPullRequestFiles = async (
 
         const owner = req.params.owner as string;
         const repo = req.params.repo as string;
-        const number= req.params.repo as string;
+        const number= req.params.number as string;
 
         const files =
             await githubService.getPullRequestFiles(
@@ -154,12 +154,16 @@ export const getPullRequestFiles = async (
             }))
         );
 
-    } catch (error) {
+    } catch (error: any) {
 
+        console.error("ERROR:");
+    
+        console.error(error);
+    
         res.status(500).json({
-            message: "Unable to fetch changed files",
+            message: error.message,
         });
-
+    
     }
 
 };
